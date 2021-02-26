@@ -2,23 +2,27 @@ package my.company.hooks;
 
 import com.thoughtworks.gauge.*;
 import lombok.extern.slf4j.Slf4j;
+import my.company.ioc.CustomClassInitializer;
+import my.company.ioc.SpringApplicationContextHolder;
 
 @Slf4j
 public class ExecutionHooks {
 
     @BeforeSuite
     public void beforeSuite() {
-        log.info("before suite");
+        setupSpringContext();
+        setupSelenide();
+    }
+
+    private void setupSelenide() {
     }
 
     @AfterSuite
     public void afterSuite() {
-        log.info("after suite");
     }
 
     @BeforeSpec
     public void beforeSpec(ExecutionContext executionContext) {
-        log.info("before spec");
     }
 
     @AfterSpec
@@ -28,21 +32,23 @@ public class ExecutionHooks {
 
     @BeforeScenario
     public void beforeScenario(ExecutionContext executionContext) {
-        log.info("before scenario");
     }
 
     @AfterScenario
     public void afterScenario() {
-        log.info("after scenario");
     }
 
     @BeforeStep
     public void beforeStep(ExecutionContext executionContext) {
-        log.info("before step");
     }
 
     @AfterStep
     public void afterStep() {
-        log.info("after step");
+    }
+
+    private void setupSpringContext() {
+        ClassInstanceManager.setClassInitializer(
+                new CustomClassInitializer(SpringApplicationContextHolder.getInstance().getContext())
+        );
     }
 }
