@@ -1,12 +1,17 @@
 package my.company.hooks;
 
+import com.codeborne.selenide.Configuration;
 import com.thoughtworks.gauge.*;
 import lombok.extern.slf4j.Slf4j;
+import my.company.env.PropertiesProvider;
 import my.company.ioc.CustomClassInitializer;
 import my.company.ioc.SpringApplicationContextHolder;
+import org.aeonbits.owner.ConfigCache;
 
 @Slf4j
 public class ExecutionHooks {
+
+    private final PropertiesProvider config = ConfigCache.getOrCreate(PropertiesProvider.class, System.getenv());
 
     @BeforeSuite
     public void beforeSuite() {
@@ -15,6 +20,10 @@ public class ExecutionHooks {
     }
 
     private void setupSelenide() {
+        Configuration.browser = config.getBrowser();
+        Configuration.timeout = config.getTimeout();
+        Configuration.pageLoadTimeout = config.getTimeout();
+        Configuration.headless = config.isHeadless();
     }
 
     @AfterSuite

@@ -6,6 +6,7 @@ import com.thoughtworks.gauge.TableRow;
 import my.company.pom.pages.ResultsPage;
 import my.company.pom.pages.SearchPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class GoogleSearchSteps {
     @Autowired
     private SearchPage searchPage;
 
+    @Qualifier("resultsPageImpl")
     @Autowired
     private ResultsPage resultsPage;
 
@@ -29,11 +31,13 @@ public class GoogleSearchSteps {
 
     @Step("Search for <expression>")
     public void searchFor(String expression) {
+        assertThat(searchPage.isAt()).isTrue();
         searchPage.searchFor(expression);
     }
 
     @Step("Ensure <expectedResultsCount> search results are shown")
     public void ensureResultsAreShown(int expectedResultsCount) {
+        assertThat(resultsPage.isAt()).isTrue();
         assertThat(resultsPage.getResultsCount()).isEqualTo(expectedResultsCount);
     }
 }

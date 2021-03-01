@@ -1,9 +1,11 @@
 package my.company.ioc;
 
+import my.company.env.PropertiesProvider;
 import my.company.pom.pages.ResultsPage;
 import my.company.pom.pages.SearchPage;
 import my.company.pom.pages.impl.ResultsPageImpl;
 import my.company.pom.pages.impl.SearchPageImpl;
+import org.aeonbits.owner.ConfigCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +22,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class SpringApplicationConfiguration {
 
     @Bean
-    public SearchPage searchPage() {
-        return new SearchPageImpl();
-    }
-
-    @Bean
-    public ResultsPage resultsPage() {
-        return new ResultsPageImpl();
+    public PropertiesProvider propertiesProvider() {
+        return ConfigCache.getOrCreate(PropertiesProvider.class, System.getenv());
     }
 }
