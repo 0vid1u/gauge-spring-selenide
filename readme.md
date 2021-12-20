@@ -2,7 +2,7 @@
 
 ## Toolset and libraries
 
-1. Java 14
+1. Java 17
 2. Maven 3.6
 3. Gauge
 4. Logback
@@ -20,8 +20,3 @@
 3. Remote running
 4. Reporting (Cloud, static, xml, json, spectacle)
 5. UI & Rest API testing
-
-## CI/CD (test-lab jenkins slave)
-
-1. Jenkins job build & validate the project after each PR in master
-2. Jenkins job to run tests
