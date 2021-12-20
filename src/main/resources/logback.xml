@@ -1,11 +1,38 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="html-report" class="my.company.extensions.logger.GaugeHtmlReportAppender"/>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{dd/MM/yyyy HH:mm:ss.SSS} %5p - %m%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="STDOUT" />
+    <!--Loggers-->
+    <logger name="org.apache.hc" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="html-report"/>
+    </logger>
+    <logger name="org.hibernate.hql" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="html-report"/>
+    </logger>
+    <logger name="org.hibernate.SQL" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="html-report"/>
+    </logger>
+    <logger name="org.hibernate.type" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="html-report"/>
+    </logger>
+
+    <!--Root-->
+    <root>
+        <level value="info"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="html-report"/>
     </root>
+
 </configuration>

@@ -41,12 +41,12 @@ public class StepsAspect {
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
                 Object a = args[i];
-                if (a instanceof Table) {
-                    Table initialTable = (Table) a;
-                    args[i] = tableEnvironmentFilterManager.filterByEnvironment(initialTable);
+                if (a instanceof Table table) {
+                    args[i] = tableEnvironmentFilterManager.filterByEnvironment(table);
                 }
             }
         }
+
         return args;
     }
 }

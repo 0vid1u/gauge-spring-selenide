@@ -1,4 +1,4 @@
-package my.company.steps.ui;
+package my.company.gauge.steps.ui;
 
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;

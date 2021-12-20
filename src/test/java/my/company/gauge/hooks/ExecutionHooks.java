@@ -1,17 +1,24 @@
-package my.company.hooks;
+package my.company.gauge.hooks;
 
 import com.codeborne.selenide.Configuration;
 import com.thoughtworks.gauge.*;
 import lombok.extern.slf4j.Slf4j;
-import my.company.env.PropertiesProvider;
 import my.company.ioc.CustomClassInitializer;
 import my.company.ioc.SpringApplicationContextHolder;
 import org.aeonbits.owner.ConfigCache;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Slf4j
 public class ExecutionHooks {
 
-    private final PropertiesProvider config = ConfigCache.getOrCreate(PropertiesProvider.class, System.getenv());
+    private static final my.company.env.Configuration CONFIG = ConfigCache.getOrCreate(my.company.env.Configuration.class, System.getenv());
+    private static final String DATE_FORMAT_PATTERN = "dd/MM/yyyy HH:mm:ss.SSS";
+
+    private static String getCurrentTimestamp() {
+        return new SimpleDateFormat(DATE_FORMAT_PATTERN).format(new Date(System.currentTimeMillis()));
+    }
 
     @BeforeSuite
     public void beforeSuite() {
@@ -20,10 +27,10 @@ public class ExecutionHooks {
     }
 
     private void setupSelenide() {
-        Configuration.browser = config.getBrowser();
-        Configuration.timeout = config.getTimeout();
-        Configuration.pageLoadTimeout = config.getTimeout();
-        Configuration.headless = config.isHeadless();
+        Configuration.browser = CONFIG.getBrowser();
+        Configuration.timeout = CONFIG.getTimeout();
+        Configuration.pageLoadTimeout = CONFIG.getTimeout();
+        Configuration.headless = CONFIG.isHeadless();
     }
 
     @AfterSuite
@@ -32,6 +39,7 @@ public class ExecutionHooks {
 
     @BeforeSpec
     public void beforeSpec(ExecutionContext executionContext) {
+        System.out.println(getCurrentTimestamp() + "  |-  # " + executionContext.getCurrentSpecification().getName());
     }
 
     @AfterSpec
@@ -41,6 +49,7 @@ public class ExecutionHooks {
 
     @BeforeScenario
     public void beforeScenario(ExecutionContext executionContext) {
+        System.out.println(getCurrentTimestamp() + "  |- ## " + executionContext.getCurrentScenario().getName());
     }
 
     @AfterScenario
@@ -49,6 +58,7 @@ public class ExecutionHooks {
 
     @BeforeStep
     public void beforeStep(ExecutionContext executionContext) {
+        System.out.println(getCurrentTimestamp() + "  |-  * " + executionContext.getCurrentStep().getDynamicText());
     }
 
     @AfterStep

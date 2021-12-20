@@ -3,7 +3,6 @@ package my.company.pom.pages.impl;
 import com.codeborne.selenide.SelenideElement;
 import my.company.pom.pages.SearchPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.springframework.stereotype.Component;
 
 import static com.codeborne.selenide.Selenide.$;

@@ -32,7 +32,7 @@ public class TableEnvironmentFilterManager {
         table.getTableRows()
                 .stream()
                 .filter(r -> r.getCellValues().get(ENVIRONMENT_COLUMN).equalsIgnoreCase(env))
-                .forEach(r -> finalTable.addRow(r.getCellValues().subList(SECOND_COLUMN, r.getCellValues().size())));
+                .forEachOrdered(r -> finalTable.addRow(r.getCellValues().subList(SECOND_COLUMN, r.getCellValues().size())));
 
         return finalTable;
     }
